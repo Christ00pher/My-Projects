@@ -9,6 +9,7 @@ using namespace std;
 enum Sign{letter};
 enum Letter{great};
 
+//shows generated password
 void show_password(vector <char> &password)
 {
     cout << "Generated password is: ";
@@ -16,6 +17,7 @@ void show_password(vector <char> &password)
         cout << x;
 }
 
+//returns length of the password
 int get_number()
 {
     int x;
@@ -25,15 +27,17 @@ int get_number()
     return x;
 }
 
+//generate a password
 void create_password(vector <char> &password, int n)
 {
-    int random;
     for (int i = 0; i < n; i++)
     {
-        random = rand() % 2;
-        if (random == letter)
+        //if random number == 0, then we generate a letter
+        //in other way a number is generated
+        if (rand() % 2 == letter)
         {
-            if (random == great)
+            //here we choose to generate a great or small letter
+            if (rand() % 2 == great)
                 password.push_back(char(rand() % 26 + 65));
             else
                 password.push_back(char(rand() % 26 + 97));
@@ -43,6 +47,7 @@ void create_password(vector <char> &password, int n)
     }
 }
 
+//checks if repetition of the main loop is needed
 bool toRepeat()
 {
     char repeat;
@@ -51,6 +56,7 @@ bool toRepeat()
     return (repeat == 'y');
 }
 
+//saves password to file
 void SaveToFile(vector <char> &password)
 {
     ofstream file;
