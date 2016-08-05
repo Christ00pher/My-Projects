@@ -6,21 +6,34 @@
 
 using namespace std;
 
-int main()
-{
-    enum Sign{letter};
-    enum Letter{great};
-    int n; //number of signs in password
-    vector <char> password;
-    ofstream file;
+enum Sign{letter};
+enum Letter{great};
 
+void show_password(vector <char> &password)
+{
+    cout << "Generated password is: ";
+    for (auto x : password)
+        cout << x;
+}
+
+int get_number()
+{
+    int x;
+    system("CLS");
     cout << "Number of characters in password: ";
-    cin >> n;
-    for (int i = 0; i < n; i++) //add an option to choose to create a number of passwords at one time
+    cin >> x;
+    return x;
+}
+
+void create_password(vector <char> &password, int n)
+{
+    int random;
+    for (int i = 0; i < n; i++)
     {
-        if (rand() % 2 == letter)
+        random = rand() % 2;
+        if (random == letter)
         {
-            if (rand() % 2 == great)
+            if (random == great)
                 password.push_back(char(rand() % 26 + 65));
             else
                 password.push_back(char(rand() % 26 + 97));
@@ -28,15 +41,37 @@ int main()
         else //generate and put down a number
             password.push_back(rand() % 11 + 48);
     }
+}
+
+bool toRepeat()
+{
+    char repeat;
+    cout << "\nCreate other password (y/n): ";
+    cin >> repeat;
+    return (repeat == 'y');
+}
+
+void SaveToFile(vector <char> password)
+{
+    ofstream file;
     file.open("password.txt", ios::out);
     for (auto x : password)
         file << x;
-
     file << endl;
     file.close();
-    cout << "Generated password is: "; //add an option to enable the user to generate the password again
-                                        //if the generated one is not good for him
-    for (auto x : password)
-        cout << x;
+}
+
+int main()
+{
+    int n; //number of signs in password
+    vector <char> password;
+
+    while (toRepeat())
+    {
+        password.clear();
+        n = get_number();
+        create_password(password,n);
+        show_password(password);
+    }
     return 0;
 }
