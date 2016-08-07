@@ -2,9 +2,10 @@
 #include <map>
 #include <string>
 
-enum option //add enum CHAR
+enum option
 {
-    SHOW = 1,
+    BEGIN,
+    SHOW,
     ADD,
     ASK,
     SAVE,
@@ -18,7 +19,7 @@ private:
     std::map<std::string, std::string> all_words; //contains all words
     std::map<std::string, std::string> correct_words; //contains correct answers
     std::map<std::string, std::string> wrong_words; //contains wrong answers
-    char choice; //user's choice
+    int choice; //user's choice
 public:
     Flashcards(); //Constructor
     ~Flashcards(); //Destructor
@@ -34,4 +35,5 @@ public:
     void Menu(); //shows Menu
     void ShowFlashcards(); //shows flashcards
     bool IsRunning();
+    void End();
 };
