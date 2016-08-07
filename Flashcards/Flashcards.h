@@ -2,12 +2,22 @@
 #include <map>
 #include <string>
 
+enum option
+{
+    ADD = 1,
+    ASK,
+    SAVE,
+    REMOVE,
+    END
+};
+
 class Flashcards
 {
 private:
     std::map<std::string, std::string> all_words; //contains all words
     std::map<std::string, std::string> correct_words; //contains correct answers
     std::map<std::string, std::string> wrong_words; //contains wrong answers
+    char choice; //user's choice
 public:
     Flashcards(); //Constructor
     ~Flashcards(); //Destructor
@@ -20,5 +30,7 @@ public:
     void Search(); //Compares user's answer to answers in maps
     void Remove(); //Removes files from 'wrong' map if it already contains user's good answer
     void HandleInput(); //in this function are other functions REMEMBER
-    void ShowMenu(); //shows Menu
+    void Menu(); //shows Menu
+    void ShowFlashcards(); //shows flashcards
+    bool IsRunning();
 };
