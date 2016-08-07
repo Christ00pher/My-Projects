@@ -5,11 +5,11 @@ using namespace std;
 
 int main()
 {
-    Flashcards flashcards;
-    while (flashcards.IsRunning())
+    Flashcards f;
+    while (f.IsRunning())
     {
-        //show MENU
-        //get input
+        f.Menu();
+        f.HandleInput();
         //process
     }
     return 0;
