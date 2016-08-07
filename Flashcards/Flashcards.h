@@ -2,9 +2,10 @@
 #include <map>
 #include <string>
 
-enum option
+enum option //add enum CHAR
 {
-    ADD = 1,
+    SHOW = 1,
+    ADD,
     ASK,
     SAVE,
     REMOVE,
