@@ -18,17 +18,19 @@ using std::pair;
 Flashcards::Flashcards()
 {
     ifstream file;
-    string s1,s2; //auxiliary variables to store words from the file
+    string polish,english; //auxiliary variables to store words from the file
     file.open("flashcards.txt", ios::in);
     while (!file.eof())
     {
-        s1 = s2 = "";
-        file >> s1;
-        file >> s2;
-        all_words.insert(pair<string, string>(s1,s2));
+        polish = english = "";
+        file >> polish;
+        file >> english;
+        if (polish != "" && english != "")
+            all_words.insert(pair<string, string>(polish,english));
     }
     wrong_words.clear();
     correct_words.clear();
+    choice = BEGIN;
     file.close();
 }
 
@@ -41,7 +43,22 @@ Flashcards::~Flashcards()
 
 void Flashcards::Add()
 {
+    string polish, english; //word containers
+    system("CLS");
+    cout << "INSTRUCTION:\n";
+    cout << "Polish word [SPACE] English word [ENTER]\n";
+    cout << "Write 'end' to stop the loop\n\n";
+    while (true)
+    {
+        polish = english = "";
+        cin >> polish;
 
+        if (polish == "end")
+            break;
+
+        cin >> english;
+        all_words.insert(pair<string, string>(polish,english));
+    }
 }
 
 void Flashcards::SaveToFile()
@@ -72,18 +89,37 @@ void Flashcards::HandleInput()
 {
     switch (choice)
     {
-    case (char)SHOW: ShowFlashcards(); break;
-    case (char)ADD: Add(); break;
+        case SHOW: ShowFlashcards(); break;
+        case ADD: Add(); break;
+        //case ASK: Question(); break;
+        case SAVE: SaveToFile(); break;
+        //case REMOVE: Remove(); break;
+        case END: End(); break;
     }
 }
+
+void Flashcards::End() { choice = END; }
 
 
 bool Flashcards::IsRunning()
 {
-    if (choice == '0')
+    if (choice == END)
         return false;
     else
         return true;
 }
 
-void Flashcards::ShowFlashcards() {}
+void Flashcards::ShowFlashcards()
+{
+    int n = 1; //number of flashcards
+
+    if (!all_words.empty())
+    {
+        for (map<string, string>::iterator it = all_words.begin(); it != all_words.end(); it++)
+        {
+            cout << n << ") " << it->first << " " << it->second << endl;
+            ++n;
+        }
+    }
+    system("PAUSE");
+}
