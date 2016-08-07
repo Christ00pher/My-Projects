@@ -20,4 +20,5 @@ public:
     void Search(); //Compares user's answer to answers in maps
     void Remove(); //Removes files from 'wrong' map if it already contains user's good answer
     void HandleInput(); //in this function are other functions REMEMBER
+    void ShowMenu(); //shows Menu
 };
