@@ -5,6 +5,12 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    Flashcards flashcards;
+    while (flashcards.IsRunning())
+    {
+        //show MENU
+        //get input
+        //process
+    }
     return 0;
 }
