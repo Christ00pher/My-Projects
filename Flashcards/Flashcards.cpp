@@ -2,6 +2,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 using std::cout;
 using std::cin;
@@ -52,4 +53,19 @@ void Flashcards::SaveToFile()
         file << it->first << " " << it->second << endl;
 
     file.close();
+}
+
+void Flashcards::Menu()
+{
+    system("CLS");
+    //while ()
+}
+
+
+bool Flashcards::IsRunning()
+{
+    if (choice == '0')
+        return false;
+    else
+        return true;
 }
