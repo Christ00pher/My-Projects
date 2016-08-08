@@ -1,6 +1,8 @@
 #pragma once
 #include <map>
 #include <string>
+#include <windows.h>
+
 
 enum option
 {
@@ -20,6 +22,7 @@ private:
     std::map<std::string, std::string> correct_words; //contains correct answers
     std::map<std::string, std::string> wrong_words; //contains wrong answers
     int choice; //user's choice
+    HANDLE hOut; //handle used to manipulate console output
 public:
     Flashcards(); //Constructor
     ~Flashcards(); //Destructor
@@ -34,6 +37,7 @@ public:
     void HandleInput(); //in this function are other functions REMEMBER
     void Menu(); //shows Menu
     void ShowFlashcards(); //shows flashcards
-    bool IsRunning();
-    void End();
+    bool IsRunning(); //returns boolean value and says if the loop is supposed to iterate again
+    void End(); //sets 'choice' value to END
+    void ClearFile(); //Removing all data from the file
 };
