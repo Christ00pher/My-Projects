@@ -30,6 +30,7 @@ Flashcards::Flashcards()
     }
     wrong_words.clear();
     correct_words.clear();
+    hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     choice = BEGIN;
     file.close();
 }
@@ -75,6 +76,7 @@ void Flashcards::SaveToFile()
 void Flashcards::Menu()
 {
     system("CLS");
+    SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_INTENSITY );
     cout << "1. Show flashcards\n";
     cout << "2. Add new flashcards\n";
     cout << "3. Start asking\n";
@@ -93,7 +95,7 @@ void Flashcards::HandleInput()
         case ADD: Add(); break;
         //case ASK: Question(); break;
         case SAVE: SaveToFile(); break;
-        //case REMOVE: Remove(); break;
+        case REMOVE: ClearFile(); break;
         case END: End(); break;
     }
 }
@@ -122,4 +124,12 @@ void Flashcards::ShowFlashcards()
         }
     }
     system("PAUSE");
+}
+
+void Flashcards::ClearFile()
+{
+    ofstream file;
+    file.open("flashcards.txt", ios::out);
+    file << "";
+    file.close();
 }
