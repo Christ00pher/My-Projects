@@ -10,6 +10,7 @@ enum option
     SHOW,
     ADD,
     ASK,
+    LOAD,
     SAVE,
     REMOVE,
     END
@@ -23,6 +24,7 @@ private:
     std::map<std::string, std::string> wrong_words; //contains wrong answers
     int choice; //user's choice
     HANDLE hOut; //handle used to manipulate console output
+    void ClearHelpers();
 public:
     Flashcards(); //Constructor
     ~Flashcards(); //Destructor
@@ -40,4 +42,5 @@ public:
     bool IsRunning(); //returns boolean value and says if the loop is supposed to iterate again
     void End(); //sets 'choice' value to END
     void ClearFile(); //Removing all data from the file
+    void LoadFromFile(); //Loads existing flashcards from the file
 };
