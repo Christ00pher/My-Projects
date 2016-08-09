@@ -23,11 +23,12 @@ private:
     std::map<std::string, std::string> correct_words; //contains correct answers
     std::map<std::string, std::string> wrong_words; //contains wrong answers
     std::map<std::string, std::string> asked_words; //contains already asked words
+    int points;
     int choice; //user's choice
     HANDLE hOut; //handle used to manipulate console output
     void ClearHelpers();
     void ClearAll();
-    void HandleAnswer();
+    void HandleAnswer(std::string, std::pair<std::string, std::string>);
 public:
     std::pair<std::string, std::string> Random(); //Randoms a question to ask
     Flashcards(); //Constructor
