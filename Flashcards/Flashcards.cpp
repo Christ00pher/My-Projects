@@ -22,7 +22,7 @@ Flashcards::Flashcards()
     wrong_words.clear();
     correct_words.clear();
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_INTENSITY );
+    SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
     choice = BEGIN;
 }
 
@@ -84,7 +84,7 @@ void Flashcards::HandleInput()
     {
         case SHOW: ShowFlashcards(); break;
         case ADD: Add(); break;
-        //case ASK: Question(); break;
+        case ASK: Question(); break;
         case LOAD: LoadFromFile(); break;
         case SAVE: SaveToFile(); break;
         case REMOVE: ClearFile(); break;
@@ -124,18 +124,37 @@ void Flashcards::ShowFlashcards()
 
 void Flashcards::Question()
 {
-    system("CLS");
-    string answer;
-    pair<string, string> question;
-    cout << "Tap 'end' to stop asking questions\n";
-    system("PAUSE");
-
-    while (answer != "end")
+    if (!all_words.empty())
     {
-        question = Random();
-        cout << question.first << " = ";
-        cin >> answer;
-        //HandleAnswer(answer);
+        system("CLS");
+        string answer;
+        pair<string, string> question;
+        cout << "Tap 'end' to stop asking questions\n\n";
+
+        while (answer != "end")
+        {
+            question = Random();
+            cout << question.first << " = ";
+            cin >> answer;
+            HandleAnswer(answer, question);
+        }
+    }
+}
+
+void Flashcards::HandleAnswer(string answer, pair<string, string> question)
+{
+    if (answer == question.second)
+    {
+        SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_INTENSITY );
+        cout << "Good!\n\n" << std::flush;
+        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
+    }
+    else
+    {
+        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_INTENSITY );
+        cout << "Wrong!\n\n" << std::flush;
+        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
+        cout << "The correct answer is:\n" << question.first << " = " << question.second << endl;
     }
 }
 
