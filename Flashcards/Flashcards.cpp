@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <ctime>
 
 using std::cout;
 using std::cin;
@@ -17,6 +18,7 @@ using std::pair;
 
 Flashcards::Flashcards()
 {
+    srand(time(NULL));
     wrong_words.clear();
     correct_words.clear();
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -122,7 +124,44 @@ void Flashcards::ShowFlashcards()
 
 void Flashcards::Question()
 {
+    system("CLS");
+    string answer;
+    pair<string, string> question;
+    cout << "Tap 'end' to stop asking questions\n";
+    system("PAUSE");
 
+    while (answer != "end")
+    {
+        question = Random();
+        cout << question.first << " = ";
+        cin >> answer;
+        //HandleAnswer(answer);
+    }
+}
+
+pair<string, string> Flashcards::Random()
+{
+    int n; //random number
+
+    n = rand() % (all_words.size());
+    map<string, string>::iterator it = all_words.begin();
+    for (int i = 0; i < n; i++)
+        it++;
+
+    return *it;
+}
+
+void Flashcards::ClearAll()
+{
+    wrong_words.clear();
+    correct_words.clear();
+    all_words.clear();
+}
+
+void Flashcards::ClearHelpers()
+{
+    wrong_words.clear();
+    correct_words.clear();
 }
 
 void Flashcards::Clear()
@@ -131,9 +170,14 @@ void Flashcards::Clear()
     char x;
     cout << "1. Remove flashcards from helper sets (correct, wrong)\n";
     cout << "2. Remove flashcards from all 3 sets (all, correct, wrong)\n";
+    cout << "3. Back\n";
     cin >> x;
 
-
+    switch (x)
+    {
+        case '1': ClearHelpers(); break;
+        case '2': ClearAll(); break;
+    }
 }
 
 void Flashcards::LoadFromFile()
