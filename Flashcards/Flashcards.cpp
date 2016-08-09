@@ -21,6 +21,7 @@ Flashcards::Flashcards()
     srand(time(NULL));
     wrong_words.clear();
     correct_words.clear();
+    asked_words.clear();
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
     choice = BEGIN;
@@ -138,6 +139,7 @@ void Flashcards::Question()
             cin >> answer;
             HandleAnswer(answer, question);
         }
+        asked_words.clear();
     }
 }
 
@@ -146,28 +148,52 @@ void Flashcards::HandleAnswer(string answer, pair<string, string> question)
     if (answer == question.second)
     {
         SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_INTENSITY );
-        cout << "Good!\n\n" << std::flush;
+        cout << "Good!\n" << std::flush;
         SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
     }
     else
     {
         SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_INTENSITY );
-        cout << "Wrong!\n\n" << std::flush;
-        SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY );
-        cout << "The correct answer is:\n" << question.first << " = " << question.second << endl;
+        cout << "Wrong!\n" << std::flush;
+        SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY );
+        cout << "The correct answer is: " << question.first << " = " << question.second << endl << endl;
+        SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY );
     }
 }
 
 pair<string, string> Flashcards::Random()
 {
     int n; //random number
+    map<string, string>::iterator it;
+    do
+    {
+        n = rand() % (all_words.size());
+        it = all_words.begin();
+        for (int i = 0; i < n; i++)
+            it++;
+    } while (CheckAsked(it));
 
-    n = rand() % (all_words.size());
-    map<string, string>::iterator it = all_words.begin();
-    for (int i = 0; i < n; i++)
-        it++;
+    isFull();
 
     return *it;
+}
+
+void Flashcards::isFull()
+{
+    if (asked_words.size() == all_words.size())
+        asked_words.clear();
+}
+
+bool Flashcards::CheckAsked(map<string, string>::iterator quest)
+{
+    map<string, string>::iterator cmp = asked_words.find(quest->first);
+    if (cmp == asked_words.end())
+    {
+        asked_words.insert(*quest);
+        return false;
+    }
+    else
+        return true;
 }
 
 void Flashcards::ClearAll()
@@ -202,7 +228,7 @@ void Flashcards::Clear()
 void Flashcards::LoadFromFile()
 {
     ifstream file;
-    string polish,english; //auxiliary variables to store words from the file
+    string polish,english; //helper variables to store words from the file
     file.open("flashcards.txt", ios::in);
     while (!file.eof())
     {
