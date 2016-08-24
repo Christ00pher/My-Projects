@@ -19,7 +19,7 @@ enum option
 class Flashcards
 {
 private:
-    std::map<std::string, std::string> all_words; //contains all words in a map
+    std::map<std::string, std::string> all_words; //contains all words
     std::map<std::string, std::string> correct_words; //contains correct answers
     std::map<std::string, std::string> wrong_words; //contains wrong answers
     std::map<std::string, std::string> asked_words; //contains already asked words
@@ -43,9 +43,11 @@ public:
     void Remove(); //Removes files from 'wrong' map if it already contains user's good answer
     void HandleInput(); //in this function are other functions REMEMBER
     void Menu(); //shows Menu
+    bool CheckAsked(std::map<std::string, std::string>::iterator);
     void ShowFlashcards(); //shows flashcards
     bool IsRunning(); //returns boolean value and says if the loop is supposed to iterate again
     void End(); //sets 'choice' value to END
     void ClearFile(); //Removing all data from the file
     void LoadFromFile(); //Loads existing flashcards from the file
+    void isFull(); //checks if asked.size() == all.size()
 };
